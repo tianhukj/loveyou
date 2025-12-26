@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Love Sphere - 52种语言的爱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out 0.2s both;
+        }
+
+        .sphere-container {
+            width: 600px;
+            height: 600px;
+            position: relative;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            animation: rotateSphere 40s infinite linear;
+        }
+
+        .sphere-container:hover {
+            animation-play-state: paused;
+        }
+
+        .love-text {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 180px;
+            height: 60px;
+            margin-left: -90px;
+            margin-top: -30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .love-text:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+            z-index: 100;
+        }
+
+        .love-text span {
+            display: block;
+            background: linear-gradient(135deg, #ff6b9d, #c06c84, #f67280, #ff8fab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .controls {
+            margin-top: 40px;
+            color: white;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .controls p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .info {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.9em;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Particle effects */
+        .particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes rotateSphere {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .sphere-container {
+                width: 400px;
+                height: 400px;
+            }
+
+            .love-text {
+                width: 140px;
+                height: 50px;
+                margin-left: -70px;
+                margin-top: -25px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .sphere-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .love-text {
+                width: 120px;
+                height: 45px;
+                margin-left: -60px;
+                margin-top: -22.5px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💝 3D Love Sphere 💝</h1>
+        <p class="subtitle">52种语言的爱 · Love in 52 Languages</p>
+        
+        <div class="sphere-container" id="sphere">
+            <!-- Love texts in 52 languages will be inserted here by JavaScript -->
+        </div>
+
+        <div class="controls">
+            <p>🖱️ 鼠标悬停暂停旋转 · Hover to pause</p>
+            <p>💖 点击文字放大查看 · Click to enlarge</p>
+        </div>
+    </div>
+
+    <div class="info">
+        Created with love ❤️ | 用爱创造
+    </div>
+
+    <script>
+        // 52+ languages with "I love you"
+        const loveExpressions = [
+            { lang: '中文', text: '我爱你' },
+            { lang: 'English', text: 'I love you' },
+            { lang: '日本語', text: '愛してる' },
+            { lang: 'Français', text: 'Je t\'aime' },
+            { lang: 'Español', text: 'Te amo' },
+            { lang: 'Русский', text: 'Я тебя люблю' },
+            { lang: '한국어', text: '사랑해' },
+            { lang: 'العربية', text: 'أنا أحبك' },
+            { lang: 'Deutsch', text: 'Ich liebe dich' },
+            { lang: 'Italiano', text: 'Ti amo' },
+            { lang: 'Português', text: 'Eu te amo' },
+            { lang: 'Nederlands', text: 'Ik hou van je' },
+            { lang: 'Ελληνικά', text: 'Σ\'αγαπώ' },
+            { lang: 'Polski', text: 'Kocham cię' },
+            { lang: 'Türkçe', text: 'Seni seviyorum' },
+            { lang: 'עברית', text: 'אני אוהב אותך' },
+            { lang: 'हिन्दी', text: 'मैं तुमसे प्यार करता हूँ' },
+            { lang: 'ภาษาไทย', text: 'ฉันรักคุณ' },
+            { lang: 'Tiếng Việt', text: 'Anh yêu em' },
+            { lang: 'Bahasa Indonesia', text: 'Aku cinta kamu' },
+            { lang: 'Svenska', text: 'Jag älskar dig' },
+            { lang: 'Norsk', text: 'Jeg elsker deg' },
+            { lang: 'Dansk', text: 'Jeg elsker dig' },
+            { lang: 'Suomi', text: 'Rakastan sinua' },
+            { lang: 'Magyar', text: 'Szeretlek' },
+            { lang: 'Čeština', text: 'Miluji tě' },
+            { lang: 'Română', text: 'Te iubesc' },
+            { lang: 'Українська', text: 'Я тебе кохаю' },
+            { lang: 'Български', text: 'Обичам те' },
+            { lang: 'Српски', text: 'Волим те' },
+            { lang: 'Hrvatski', text: 'Volim te' },
+            { lang: 'Slovenčina', text: 'Ľúbim ťa' },
+            { lang: 'Slovenščina', text: 'Ljubim te' },
+            { lang: 'Lietuvių', text: 'Aš tave myliu' },
+            { lang: 'Latviešu', text: 'Es tevi mīlu' },
+            { lang: 'Eesti', text: 'Ma armastan sind' },
+            { lang: 'فارسی', text: 'دوستت دارم' },
+            { lang: 'اردو', text: 'میں تم سے پیار کرتا ہوں' },
+            { lang: 'বাংলা', text: 'আমি তোমাকে ভালোবাসি' },
+            { lang: 'தமிழ்', text: 'நான் உன்னை காதலிக்கிறேன்' },
+            { lang: 'తెలుగు', text: 'నేను నిన్ను ప్రేమిస్తున్నాను' },
+            { lang: 'ગુજરાતી', text: 'હું તને પ્રેમ કરું છું' },
+            { lang: 'ಕನ್ನಡ', text: 'ನಾನು ನಿನ್ನನ್ನು ಪ್ರೀತಿಸುತ್ತೇನೆ' },
+            { lang: 'മലയാളം', text: 'ഞാൻ നിന്നെ സ്നേഹിക്കുന്നു' },
+            { lang: 'Tagalog', text: 'Mahal kita' },
+            { lang: 'Kiswahili', text: 'Nakupenda' },
+            { lang: 'Afrikaans', text: 'Ek het jou lief' },
+            { lang: 'Català', text: 'T\'estimo' },
+            { lang: 'Galego', text: 'Ámote' },
+            { lang: 'Euskara', text: 'Maite zaitut' },
+            { lang: 'Íslenska', text: 'Ég elska þig' },
+            { lang: 'Gaeilge', text: 'Tá grá agam duit' },
+            { lang: 'Cymraeg', text: 'Rwy\'n dy garu di' },
+            { lang: 'မြန်မာ', text: 'ချစ်တယ်' },
+            { lang: 'ខ្មែរ', text: 'ខ្ញុំស្រលាញ់អ្នក' },
+            { lang: 'ລາວ', text: 'ຂ້ອຍຮັກເຈົ້າ' }
+        ];
+
+        // Create particles for background effect
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Generate sphere points using Fibonacci sphere algorithm
+        function fibonacciSphere(samples) {
+            const points = [];
+            const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
+
+            for (let i = 0; i < samples; i++) {
+                const y = 1 - (i / (samples - 1)) * 2; // y from 1 to -1
+                const radius = Math.sqrt(1 - y * y); // radius at y
+                const theta = phi * i; // golden angle increment
+
+                const x = Math.cos(theta) * radius;
+                const z = Math.sin(theta) * radius;
+
+                points.push({ x, y, z });
+            }
+
+            return points;
+        }
+
+        // Create sphere with love expressions
+        function createSphere() {
+            const sphere = document.getElementById('sphere');
+            const points = fibonacciSphere(loveExpressions.length);
+            const radius = 250; // Sphere radius
+
+            loveExpressions.forEach((love, index) => {
+                const point = points[index];
+                const div = document.createElement('div');
+                div.className = 'love-text';
+                div.innerHTML = `<span>${love.text}<br><small style="font-size: 0.7em; opacity: 0.7;">${love.lang}</small></span>`;
+                
+                // Calculate 3D position
+                const x = point.x * radius;
+                const y = point.y * radius;
+                const z = point.z * radius;
+
+                // Apply 3D transform
+                div.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+                
+                // Add color variation based on position
+                const hue = (index * 360 / loveExpressions.length);
+                div.style.background = `linear-gradient(135deg, 
+                    hsla(${hue}, 70%, 90%, 0.95), 
+                    hsla(${hue + 30}, 70%, 85%, 0.95))`;
+
+                // Add hover event for additional effect
+                div.addEventListener('click', function() {
+                    this.style.transition = 'all 0.5s ease';
+                    this.style.transform += ' scale(1.3)';
+                    setTimeout(() => {
+                        this.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+                    }, 500);
+                });
+
+                sphere.appendChild(div);
+            });
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            createSphere();
+        });
+
+        // Add mouse interaction for sphere rotation control
+        let isMouseDown = false;
+        let startX = 0;
+        let startY = 0;
+        let currentRotationX = 0;
+        let currentRotationY = 0;
+
+        const sphere = document.getElementById('sphere');
+
+        sphere.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            sphere.style.animationPlayState = 'paused';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isMouseDown) return;
+            
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+            
+            currentRotationX -= deltaY * 0.5;
+            currentRotationY += deltaX * 0.5;
+            
+            sphere.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
+            
+            startX = e.clientX;
+            startY = e.clientY;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isMouseDown) {
+                isMouseDown = false;
+                // Resume animation
+                setTimeout(() => {
+                    sphere.style.animation = 'rotateSphere 40s infinite linear';
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
